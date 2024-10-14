@@ -50,7 +50,6 @@ export class MapLeafletComponent implements OnInit, OnChanges {
       }
     });
     this.initMap().then(() => {
-
       this.map.on('dragend', () => {
         const center = this.map.getCenter();
         console.log('drag ended.', center);
@@ -65,12 +64,10 @@ export class MapLeafletComponent implements OnInit, OnChanges {
 
   ngOnChanges() {
     if (this.map) {
-      // remove all
       this.map.removeLayer(this.mapGroupMarkers.residential);
       this.map.removeLayer(this.mapGroupMarkers.commercial);
       this.map.removeLayer(this.mapGroupMarkers.industrial);
       this.map.removeLayer(this.mapGroupMarkers.land);
-      // add included
       if (this.visibleMarkerType.includes(PropertyType.residential)) {
         this.map.addLayer(this.mapGroupMarkers.residential);
       }
@@ -120,11 +117,11 @@ export class MapLeafletComponent implements OnInit, OnChanges {
         this.map.invalidateSize();
       }, 1000);
     });
-    const isDark = await this.storage.getDartTheme();
-    this.mapService.addTiles(this.map, isDark);
+
+    // Adding the tile layer directly using the API key
+    this.mapService.addTiles(this.map, false); // Pass false for light mode or true for dark mode
 
     if (this.clickAddMarker) {
-      // set click event handler
       this.map.on('click', (e: L.LeafletMouseEvent) => {
         if (this.pendingMarker.length) {
           this.pendingMarker.forEach(marker => {
@@ -137,7 +134,6 @@ export class MapLeafletComponent implements OnInit, OnChanges {
     }
 
     if (this.showPropertyMarkers) {
-      // set Properties Markers
       this.setMapMarkers();
     }
   }
@@ -184,7 +180,6 @@ export class MapLeafletComponent implements OnInit, OnChanges {
     this.map.addLayer(this.mapGroupMarkers.land);
   }
 
-
   private pinMarker(coord: Coord): void {
     const icon = this.setMarkerIcon();
     const marker = this.mapService.addMarker(this.map, coord, { icon, popup: '' });
@@ -193,7 +188,6 @@ export class MapLeafletComponent implements OnInit, OnChanges {
   }
 
   private addPropertyMarker(property: Property) {
-    // Dynamicaly Add Component to Popup
     const component = this.resolver.resolveComponentFactory(MapPopupComponent).create(this.injector);
     component.instance.property = property;
     component.instance.changeDetector.detectChanges();
@@ -227,11 +221,11 @@ export class MapLeafletComponent implements OnInit, OnChanges {
       iconUrl: '../../../assets/images/map/' + icon,
       shadowUrl: '../../../assets/images/map/marker-shadow.svg',
 
-      iconSize: [40, 45], // size of the icon
-      shadowSize: [40, 55], // size of the shadow
-      iconAnchor: [22, 50], // point of the icon which will correspond to marker's location
-      shadowAnchor: [5, 40],  // the same for the shadow
-      popupAnchor: [-3, -46] // point from which the popup should open relative to the iconAnchor
+      iconSize: [40, 45],
+      shadowSize: [40, 55],
+      iconAnchor: [22, 50],
+      shadowAnchor: [5, 40],
+      popupAnchor: [-3, -46]
     });
   }
 }

@@ -1,4 +1,4 @@
-import { Injectable, } from '@angular/core';
+import { Injectable } from '@angular/core';
 import * as L from 'leaflet';
 import { Coord } from 'src/app/shared/interface/map';
 import { environment } from 'src/environments/environment';
@@ -11,7 +11,7 @@ export class MapService {
   constructor() { }
 
   addTiles(map: L.Map, isDark = false) {
-    const key = environment.api.mapKey;
+    const key = '1fba9035-7633-4641-823c-b1cb431b2244'; // Directly using the provided API key
     let mapTiles = `https://tiles.stadiamaps.com/tiles/alidade_smooth/{z}/{x}/{y}{r}.png?api_key=${key}`;
     if (isDark) {
       mapTiles = `https://tiles.stadiamaps.com/tiles/alidade_smooth_dark/{z}/{x}/{y}{r}.png?api_key=${key}`;
@@ -32,9 +32,7 @@ export class MapService {
     if (options.popup) {
       marker.bindPopup(options.popup.location.nativeElement);
     }
-    // add click event
     marker.on('click', () => {
-      // console.log(coord);
       map.flyTo(coord, 19);
     });
     return marker;
