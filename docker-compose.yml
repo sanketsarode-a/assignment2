@@ -10,7 +10,7 @@ services:
 
   backend:
     build:
-      context: ./backend
+      context: ./backend-fastify
       dockerfile: Dockerfile.backend
     ports:
       - "3000:3000"
