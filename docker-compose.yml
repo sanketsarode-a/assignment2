@@ -13,7 +13,6 @@ services:
       context: ./backend-fastify
       dockerfile: Dockerfile.backend
     ports:
-      - "3000:3000"
-    environment:
-      - MONGODB_URI=mongodb+srv://sdsarode2812:.JCpRZt6jmmY_k5@cluster0.5drse.mongodb.net/?retryWrites=true&w=majority&appName=Cluster0
+      - "5000:5000"
+
 
