@@ -5,6 +5,7 @@ services:
     build:
       context: ./frontend
       dockerfile: Dockerfile.frontend
+    image: sanket821/frontend:latest
     ports:
       - "80:80"
 
@@ -12,7 +13,6 @@ services:
     build:
       context: ./backend-fastify
       dockerfile: Dockerfile.backend
+    image: sanket821/backend:latest
     ports:
       - "5000:5000"
-
-
